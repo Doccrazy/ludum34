@@ -3,13 +3,13 @@ package de.doccrazy.ld34.game.world;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.data.GameRules;
-import de.doccrazy.ld34.game.actor.DummyLevelActor;
 import de.doccrazy.ld34.game.actor.Level;
+import de.doccrazy.ld34.game.actor.Level1Actor;
 import de.doccrazy.ld34.game.actor.PlayerActor;
 import de.doccrazy.shared.game.world.Box2dWorld;
 import de.doccrazy.shared.game.world.GameState;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
 
 public class GameWorld extends Box2dWorld<GameWorld> {
 
@@ -18,7 +18,7 @@ public class GameWorld extends Box2dWorld<GameWorld> {
 	private int round;
     private Vector2 mouseTarget;
     private Level level;
-    private Class<? extends Level> nextLevel;
+    private Function<GameWorld, Level> nextLevel;
 
 	public GameWorld() {
         super(GameRules.GRAVITY);
@@ -32,14 +32,10 @@ public class GameWorld extends Box2dWorld<GameWorld> {
             case INIT:
             	waitingForRound = false;
             	if (nextLevel == null) {
-            	    nextLevel = DummyLevelActor.class;
+            	    nextLevel = Level1Actor::new;
             	}
-                try {
-                    level = nextLevel.getConstructor(GameWorld.class).newInstance(this);
-                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    throw new RuntimeException(e);
-                }
+                level = nextLevel.apply(this);
+
                 addActor(level);
                 addActor(player = new PlayerActor(this, level.getSpawn()));
                 break;
@@ -129,7 +125,7 @@ public class GameWorld extends Box2dWorld<GameWorld> {
         return Math.max(0, level.getTime() - (isGameFinished() ? getLastStateTime() : getStateTime()));
     }
 
-    public void setNextLevel(Class<? extends Level> nextLevel) {
+    public void setNextLevel(Function<GameWorld, Level> nextLevel) {
         this.nextLevel = nextLevel;
     }
 

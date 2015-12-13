@@ -1,8 +1,28 @@
 package de.doccrazy.ld34.resources;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import de.doccrazy.shared.core.ResourcesBase;
 
 public class GfxResources extends ResourcesBase {
+    public Texture plantTex = textureWrap("plantTex.png");
+    public Texture bloodTrailTex = textureWrap("bloodTrailTex.png");
+    public Sprite[] leaves = new Sprite[]{atlas.createSprite("leaf1")};
+    public Sprite[] rocks = new Sprite[]{atlas.createSprite("rock")};
+    public Sprite[] grass = new Sprite[]{atlas.createSprite("grass1"), atlas.createSprite("grass2"), atlas.createSprite("grass3"), atlas.createSprite("grass4")};
+    public TiledMap level1 = new TmxMapLoader().load("level1.tmx");
+    public Texture level1bg = texture("bg.png");
+    public Sprite mower = atlas.createSprite("mower");
+
+    public ParticleEffectPool partExhaust = particle("exhaust.p", 0.01f);
+    public ParticleEffectPool partGrass = particle("grass.p", 0.018f);
+    public ParticleEffectPool partFire = particle("fire.p", 0.01f);
+    public ParticleEffectPool partSmoke = particle("smoke.p", 0.008f);
+
     /*public Texture threadStructure = textureWrap("thread-structure.png");
     public Texture threadSticky = textureWrap("thread-sticky.png");
     public Texture threadCounter = textureWrap("thread-counter.png");

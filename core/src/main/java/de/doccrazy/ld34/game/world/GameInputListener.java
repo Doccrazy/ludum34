@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import de.doccrazy.ld34.core.Resource;
+import de.doccrazy.ld34.game.actor.GrowthActor;
 import de.doccrazy.ld34.game.ui.UiRoot;
 import de.doccrazy.shared.game.world.GameState;
 
@@ -35,7 +36,7 @@ public class GameInputListener extends InputListener {
             return false;
         }
         if (button == 0) {
-            world.getPlayer().setJump(true);
+            //world.getPlayer().setJump(true);
             return true;
             //start = world.createAttachedPoint(new Vector2(x, y), 0.02f);
         }
@@ -51,7 +52,7 @@ public class GameInputListener extends InputListener {
             return;
         }
         if (button == 0) {
-            world.getPlayer().setJump(false);
+            //world.getPlayer().setJump(false);
         }
     }
 

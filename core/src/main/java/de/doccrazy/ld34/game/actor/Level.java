@@ -14,6 +14,8 @@ public abstract class Level extends Box2dActor<GameWorld> {
 
     public abstract Rectangle getBoundingBox();
 
+    public abstract Rectangle getGrassBox();
+
     public abstract Vector2 getSpawn();
 
     public abstract int getScoreGoal();

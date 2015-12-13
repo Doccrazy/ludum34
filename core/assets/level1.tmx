@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1000" height="100" tilewidth="32" tileheight="32" nextobjectid="8">
+ <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="49" tilecount="1">
+  <tile id="0">
+   <image width="32" height="49" source="tiles/flower.png"/>
+  </tile>
+ </tileset>
+ <imagelayer name="images" x="98" y="382">
+  <image source="level1.png"/>
+ </imagelayer>
+ <layer name="tiles" width="1000" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzjENAAAIA7Dh3zQmlsDRKmgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0zHUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnlsiMgAC
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="6" type="solid" x="260" y="1106">
+   <polygon points="0,0 120,6 200,-4 242,-21 273,-66 298,-106 324,-115 345,-103 355,-78 374,-40 399,-23 410,-17 424,7 432,71 434,131 444,158 464,166 481,153 617,-29 692,-115 746,-150 792,-142 825,-109 837,-78 856,-57 902,-47 943,-45 981,-52 1038,-78 1127,-129 1179,-135 1204,-121 1233,-79 1245,-22 1263,19 1301,43 1312,37 1322,-20 1337,-48 1371,-59 1405,-41 1525,90 1554,105 1562,107 1568,101 1573,86 1548,-42 1551,-75 1569,-100 1604,-99 1628,-88 1626,-723 1836,-722 1836,295 -160,297 -159,-675 1,-668"/>
+  </object>
+  <object id="7" name="spawn" x="299.5" y="1093" width="11.5" height="11.5">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
