@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
+import de.doccrazy.ld34.game.world.RandomEvent;
 import de.doccrazy.shared.game.actor.WorldActor;
 
 import java.util.function.BiFunction;
@@ -17,7 +18,7 @@ public class Level1Actor extends Level {
     public static final float LEVEL_HEIGHT = LEVEL_WIDTH*9f/16f;
 
     public static final float GRASS_PER_SEC = 25f;
-    public static final float FUSSBALL_PER_SEC = 0.1f;
+    public static final RandomEvent FUSSBALL_PER_SEC = new RandomEvent(2.5f, 7.5f);
     public static final float DOG_PER_SEC_PER_FUSSBALL = 0.05f;
 
     private final Rectangle boundingBox = new Rectangle(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
@@ -58,7 +59,7 @@ public class Level1Actor extends Level {
 
     @Override
     public int getScoreGoal() {
-        return 99999;
+        return 5000;
     }
 
     @Override
@@ -68,6 +69,13 @@ public class Level1Actor extends Level {
 
     @Override
     protected void doAct(float delta) {
+        int ballCount = 0;
+        for (Actor actor : world.stage.getActors()) {
+            if (actor instanceof FussballActor) {
+                ballCount++;
+            }
+        }
+        fussballPerSec.setMaxTime(ballCount > 0 ? 12.5f : 7.5f);
         spawnRandomStuff(delta);
     }
 

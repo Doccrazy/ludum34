@@ -12,7 +12,8 @@ import de.doccrazy.shared.game.world.ShapeBuilder;
 public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
     private static final float RADIUS = 0.3f;
     private final Vector2 target;
-    private boolean solid, childAttracted;
+    private boolean solid;
+    private ChildActor childAttracted;
 
     public FussballActor(GameWorld world, Vector2 spawn, Vector2 target) {
         super(world, spawn, false);
@@ -43,10 +44,13 @@ public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
             body.getFixtureList().first().setSensor(false);
             solid = true;
         }
-        if (!childAttracted && stateTime > GameRules.FUSSBALL_CHILD_TIME) {
+        if (childAttracted != null && childAttracted.isDead()) {
+            childAttracted = null;
+            stateTime = 0;
+        }
+        if (childAttracted == null && stateTime > GameRules.FUSSBALL_CHILD_TIME && !world.getPlayer().isDestroyed()) {
             Vector2 cs = world.getLevel().getRandomBorderPoint();
-            world.addActor(new ChildActor(world, cs, this));
-            childAttracted = true;
+            world.addActor(childAttracted = new ChildActor(world, cs, this));
         }
         if (world.getPlayer().isCaughtInShockwave(body.getPosition())) {
             world.addActor(new SmallFireActor(world, body.getPosition()));

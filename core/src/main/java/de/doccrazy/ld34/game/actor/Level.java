@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.doccrazy.ld34.game.world.GameWorld;
+import de.doccrazy.ld34.game.world.RandomEvent;
 import de.doccrazy.shared.game.actor.Box2dActor;
 import de.doccrazy.shared.game.actor.WorldActor;
 
@@ -14,7 +15,7 @@ import java.util.function.BiFunction;
 public abstract class Level extends Box2dActor<GameWorld> {
 
     protected float grassPerSec;
-    protected float fussballPerSec;
+    protected RandomEvent fussballPerSec;
     protected float dogPerSecPerFussball;
 
     public Level(GameWorld world) {
@@ -71,7 +72,7 @@ public abstract class Level extends Box2dActor<GameWorld> {
         if (MathUtils.randomBoolean(delta * grassPerSec)) {
             spawnRandomObject(GrassActor::new, false);
         }
-        if (MathUtils.randomBoolean(delta * fussballPerSec)) {
+        if (fussballPerSec.apply(delta)) {
             world.addActor(new FussballActor(world, getRandomBorderPoint(), getRandomPoint(false)));
         }
 

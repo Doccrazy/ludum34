@@ -10,6 +10,7 @@
         <file id="1" name="crap.png" width="107" height="56" pivot_x="0" pivot_y="1"/>
         <file id="2" name="crapfly.png" width="5" height="5" pivot_x="0" pivot_y="1"/>
         <file id="3" name="fussball.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="crapfly2.png" width="100" height="100" pivot_x="0.48" pivot_y="0.51"/>
     </folder>
     <entity id="0" name="dog">
         <obj_info name="bone_000" type="bone" w="263.002" h="10"/>
@@ -413,23 +414,27 @@
                     <object_ref id="2" timeline="2" key="0" z_index="2"/>
                     <object_ref id="3" timeline="3" key="0" z_index="3"/>
                     <object_ref id="4" timeline="4" key="0" z_index="4"/>
-                    <object_ref id="5" timeline="5" key="0" z_index="5"/>
                 </key>
-                <key id="1" time="400">
+                <key id="1" time="299">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
                     <object_ref id="1" timeline="1" key="1" z_index="1"/>
                     <object_ref id="2" timeline="2" key="1" z_index="2"/>
                     <object_ref id="3" timeline="3" key="1" z_index="3"/>
                     <object_ref id="4" timeline="4" key="1" z_index="4"/>
-                    <object_ref id="5" timeline="5" key="1" z_index="5"/>
                 </key>
-                <key id="2" time="700">
+                <key id="2" time="600">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
                     <object_ref id="1" timeline="1" key="2" z_index="1"/>
                     <object_ref id="2" timeline="2" key="2" z_index="2"/>
                     <object_ref id="3" timeline="3" key="2" z_index="3"/>
                     <object_ref id="4" timeline="4" key="2" z_index="4"/>
-                    <object_ref id="5" timeline="5" key="1" z_index="5"/>
+                </key>
+                <key id="3" time="760">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="3" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="3" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="3" z_index="4"/>
                 </key>
             </mainline>
             <timeline id="0" name="crap">
@@ -437,56 +442,60 @@
                     <object folder="1" file="1" x="-53.435115" y="30.534351"/>
                 </key>
             </timeline>
-            <timeline id="1" name="crapfly">
+            <timeline id="1" name="crapfly2_002">
                 <key id="0" spin="0">
-                    <object folder="1" file="2" x="-44.274809" y="26.717557"/>
+                    <object folder="1" file="4" x="-45.801527" y="35.877863" scale_x="0.363504" scale_y="0.357187"/>
                 </key>
-                <key id="1" time="400" spin="0">
-                    <object folder="1" file="2" x="19.083969" y="38.931298"/>
+                <key id="1" time="299" spin="0">
+                    <object folder="1" file="4" x="6.870229" y="6.870229" scale_x="0.363504" scale_y="0.357187"/>
                 </key>
-                <key id="2" time="700" spin="0">
-                    <object folder="1" file="2" x="-52.290076" y="29.770992"/>
+                <key id="2" time="600" spin="0">
+                    <object folder="1" file="4" x="47.612462" y="17.035642" scale_x="0.363504" scale_y="0.357187"/>
+                </key>
+                <key id="3" time="760" spin="0">
+                    <object folder="1" file="4" x="23.987325" y="8.541996" scale_x="0.363504" scale_y="0.357187"/>
                 </key>
             </timeline>
-            <timeline id="2" name="crapfly_000">
+            <timeline id="2" name="crapfly2_003">
                 <key id="0" spin="0">
-                    <object folder="1" file="2" x="-1.526718" y="60.305344"/>
+                    <object folder="1" file="4" x="3.053435" y="51.908397" scale_x="0.363504" scale_y="0.363504"/>
                 </key>
-                <key id="1" time="400" spin="0">
-                    <object folder="1" file="2" x="25.954198" y="52.671756"/>
+                <key id="1" time="299" spin="0">
+                    <object folder="1" file="4" x="-32.824427" y="46.564885" scale_x="0.363504" scale_y="0.363504"/>
                 </key>
-                <key id="2" time="700" spin="0">
-                    <object folder="1" file="2" x="-32.824427" y="54.961832"/>
+                <key id="2" time="600" spin="0">
+                    <object folder="1" file="4" x="20.748985" y="-1.522362" scale_x="0.363504" scale_y="0.363504"/>
+                </key>
+                <key id="3" time="760" spin="0">
+                    <object folder="1" file="4" x="-32.130762" y="13.743072" scale_x="0.363504" scale_y="0.363504"/>
                 </key>
             </timeline>
-            <timeline id="3" name="crapfly_001">
+            <timeline id="3" name="crapfly2_004">
                 <key id="0" spin="0">
-                    <object folder="1" file="2" x="50.381679" y="21.374046"/>
+                    <object folder="1" file="4" x="36.641221" y="32.061069" scale_x="0.232643" scale_y="0.234803"/>
                 </key>
-                <key id="1" time="400" spin="0">
-                    <object folder="1" file="2" x="-13.740458" y="52.671756"/>
+                <key id="1" time="299" spin="0">
+                    <object folder="1" file="4" x="14.503817" y="49.618321" scale_x="0.232643" scale_y="0.234803"/>
                 </key>
-                <key id="2" time="700" spin="0">
-                    <object folder="1" file="2" x="39.694656" y="16.412214"/>
+                <key id="2" time="600" spin="0">
+                    <object folder="1" file="4" x="-36.296022" y="32.155808" scale_x="0.232643" scale_y="0.234803"/>
+                </key>
+                <key id="3" time="760" spin="0">
+                    <object folder="1" file="4" x="-14.754712" y="37.461424" scale_x="0.232643" scale_y="0.234803"/>
                 </key>
             </timeline>
-            <timeline id="4" name="crapfly_002">
+            <timeline id="4" name="crapfly2_005">
                 <key id="0" spin="0">
-                    <object folder="1" file="2" x="32.824427" y="47.328244"/>
+                    <object folder="1" file="4" x="45.801527" y="48.854962" scale_x="0.334424" scale_y="0.334424"/>
                 </key>
-                <key id="1" time="400" spin="0">
-                    <object folder="1" file="2" x="-36.641221" y="35.877863"/>
+                <key id="1" time="299" spin="0">
+                    <object folder="1" file="4" x="45.801527" y="24.427481" scale_x="0.334424" scale_y="0.334424"/>
                 </key>
-                <key id="2" time="700" spin="0">
-                    <object folder="1" file="2" x="50" y="53.816794"/>
+                <key id="2" time="600" spin="0">
+                    <object folder="1" file="4" x="-0.763359" y="14.305627" scale_x="0.334424" scale_y="0.334424"/>
                 </key>
-            </timeline>
-            <timeline id="5" name="crapfly_003">
-                <key id="0" spin="0">
-                    <object folder="1" file="2" x="-8.396947" y="41.984733"/>
-                </key>
-                <key id="1" time="400" spin="0">
-                    <object folder="1" file="2" x="40.458015" y="25.954198"/>
+                <key id="3" time="760" spin="0">
+                    <object folder="1" file="4" x="23.206107" y="41.865819" scale_x="0.334424" scale_y="0.334424"/>
                 </key>
             </timeline>
         </animation>

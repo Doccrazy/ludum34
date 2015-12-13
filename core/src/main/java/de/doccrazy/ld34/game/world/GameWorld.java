@@ -33,7 +33,7 @@ public class GameWorld extends Box2dWorld<GameWorld> {
             case INIT:
             	waitingForRound = false;
             	if (nextLevel == null) {
-            	    nextLevel = Level2Actor::new;
+            	    nextLevel = Level1Actor::new;
             	}
                 level = nextLevel.apply(this);
 
