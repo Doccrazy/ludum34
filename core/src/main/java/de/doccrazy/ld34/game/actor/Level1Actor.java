@@ -10,9 +10,11 @@ import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.shared.game.actor.WorldActor;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class Level1Actor extends Level {
+    public static final float GRASS_PER_SEC = 20f;
+    public static final float FUSSBALL_PER_SEC = 0.1f;
+
     private final Rectangle boundingBox = new Rectangle(0, 0, GameRules.LEVEL_WIDTH, GameRules.LEVEL_HEIGHT);
     private final Rectangle grassBox = new Rectangle(1.4f, 1.1f, GameRules.LEVEL_WIDTH-2.6f, GameRules.LEVEL_HEIGHT-2.4f);
 
@@ -28,15 +30,29 @@ public class Level1Actor extends Level {
         world.addActor(new BarrierActor(world, new Rectangle(0, 0, 1f, GameRules.LEVEL_HEIGHT)));  //left
         world.addActor(new BarrierActor(world, new Rectangle(0, GameRules.LEVEL_HEIGHT - 1.1f, GameRules.LEVEL_WIDTH, 1.1f)));  //top
         world.addActor(new BarrierActor(world, new Rectangle(GameRules.LEVEL_WIDTH - 0.8f, 0, 0.8f, GameRules.LEVEL_HEIGHT)));  //right
+        world.addActor(new DogActor(world, new Vector2(5, 5)));
     }
 
     private void spawnRandomObject(BiFunction<GameWorld, Vector2, WorldActor<GameWorld>> factory, boolean avoidPlayer) {
+        world.addActor(factory.apply(world, getRandomPoint(avoidPlayer)));
+    }
+
+    private Vector2 getRandomPoint(boolean avoidPlayer) {
         Vector2 spawn;
         do {
             spawn = new Vector2(MathUtils.random(grassBox.getX(), grassBox.getWidth() + grassBox.getX()),
                     MathUtils.random(grassBox.getY(), grassBox.getHeight() + grassBox.getY()));
         } while (avoidPlayer && spawn.dst(getSpawn()) < 2f);
-        world.addActor(factory.apply(world, spawn));
+        return spawn;
+    }
+
+    private Vector2 getRandomBorderPoint() {
+        Vector2 spawn;
+        do {
+            spawn = new Vector2(MathUtils.random(boundingBox.getX(), boundingBox.getWidth() + boundingBox.getX()),
+                    MathUtils.random(boundingBox.getY(), boundingBox.getHeight() + boundingBox.getY()));
+        } while (grassBox.contains(spawn));
+        return spawn;
     }
 
     @Override
@@ -66,8 +82,18 @@ public class Level1Actor extends Level {
 
     @Override
     protected void doAct(float delta) {
-        if (MathUtils.randomBoolean(delta*20)) {
+        spawnRandomStuff(delta);
+    }
+
+    private void spawnRandomStuff(float delta) {
+        if (world.getPlayer().isDestroyed()) {
+            return;
+        }
+        if (MathUtils.randomBoolean(delta* GRASS_PER_SEC)) {
             spawnRandomObject(GrassActor::new, false);
+        }
+        if (MathUtils.randomBoolean(delta * FUSSBALL_PER_SEC)) {
+            world.addActor(new FussballActor(world, getRandomBorderPoint(), getRandomPoint(false)));
         }
     }
 

@@ -10,7 +10,7 @@ import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
 import de.doccrazy.shared.game.world.ShapeBuilder;
 
-public class GrassActor extends ShapeActor<GameWorld> {
+public class GrassActor extends ShapeActor<GameWorld> implements Hittable {
     private static final float RADIUS = 0.08f;
     private final Sprite sprite;
     private float growthSpeed;
@@ -35,10 +35,23 @@ public class GrassActor extends ShapeActor<GameWorld> {
         float progress = stateTime * growthSpeed;
         setScaleX(Math.min(progress*2f, 1.0f) * scale);
         setScaleY(Math.min(progress, 1.0f) * scale);
+        if (world.getPlayer().isCaughtInShockwave(body.getPosition())) {
+            kill();
+        }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         drawRegion(batch, sprite);
+    }
+
+    @Override
+    public int getPoints() {
+        return 10;
+    }
+
+    @Override
+    public void runOver() {
+        kill();
     }
 }

@@ -19,7 +19,6 @@ public class BarrierActor extends ShapeActor<GameWorld> {
     protected BodyBuilder createBody(Vector2 spawn) {
         Vector2 center = new Vector2();
         return BodyBuilder.forStatic(rect.getCenter(center))
-                .fixShape(ShapeBuilder.box(rect.getWidth()/2, rect.getHeight()/2))
-                .fixSensor();
+                .fixShape(ShapeBuilder.box(rect.getWidth()/2, rect.getHeight()/2));
     }
 }

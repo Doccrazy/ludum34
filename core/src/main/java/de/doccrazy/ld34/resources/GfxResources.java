@@ -11,12 +11,16 @@ import de.doccrazy.shared.core.ResourcesBase;
 public class GfxResources extends ResourcesBase {
     public Texture plantTex = textureWrap("plantTex.png");
     public Texture bloodTrailTex = textureWrap("bloodTrailTex.png");
+    public Texture fussballTrailTex = textureWrap("fussballTrailTex.png");
+    public Texture level1bg = texture("bg.png");
+    public Texture shockwave = texture("shockwave.png");
+
     public Sprite[] leaves = new Sprite[]{atlas.createSprite("leaf1")};
     public Sprite[] rocks = new Sprite[]{atlas.createSprite("rock")};
     public Sprite[] grass = new Sprite[]{atlas.createSprite("grass1"), atlas.createSprite("grass2"), atlas.createSprite("grass3"), atlas.createSprite("grass4")};
-    public TiledMap level1 = new TmxMapLoader().load("level1.tmx");
-    public Texture level1bg = texture("bg.png");
     public Sprite mower = atlas.createSprite("mower");
+    public Sprite fussball = atlas.createSprite("fussball");
+    public Sprite[] blood = new Sprite[]{atlas.createSprite("blood1"), atlas.createSprite("blood2"), atlas.createSprite("blood3"), atlas.createSprite("blood4")};
 
     public ParticleEffectPool partExhaust = particle("exhaust.p", 0.01f);
     public ParticleEffectPool partGrass = particle("grass.p", 0.018f);

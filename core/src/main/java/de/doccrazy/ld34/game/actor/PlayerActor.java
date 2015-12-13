@@ -4,17 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.CatmullRomSpline;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import de.doccrazy.ld34.core.Resource;
+import de.doccrazy.ld34.game.world.FloatingTextEvent;
 import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.base.CollisionListener;
@@ -39,6 +35,7 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
     private final ParticleEffectPool.PooledEffect[] fire = new ParticleEffectPool.PooledEffect[3];
     private final List<Trail> trails = new ArrayList<>();
     private float health = 1;
+    private float timeOfDeath;
 
     public PlayerActor(GameWorld world, Vector2 spawn) {
         super(world, spawn, false);
@@ -60,7 +57,6 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
     protected void init() {
         super.init();
         setOriginX(getOriginX() + 0.1f);
-        startTrail(Resource.GFX.bloodTrailTex);
     }
 
     @Override
@@ -93,7 +89,7 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
         updateTrails();
     }
 
-    private void startTrail(Texture tex) {
+    public void startTrail(Texture tex) {
         Trail t = new Trail();
         t.tex = tex;
         t.localPoint = new Vector2(getOriginX() - RADIUS/3f, getOriginY() + (MathUtils.randomBoolean() ? RADIUS : -RADIUS));
@@ -135,6 +131,16 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
             drawParticle(batch, fire[1], new Vector2(0.3f, 0), 150);
             drawParticle(batch, fire[2], new Vector2(0.7f, 0), 210);
         }
+        if (timeOfDeath > 0) {
+            float d = MathUtils.clamp((getTimeSinceDeath() - 0.25f)*3f, 0, 1.0f);
+            if (d > 0 && d < 1.0f) {
+                float size = d*15f;
+                float alpha = Interpolation.exp5Out.apply(1.0f - d) * 0.75f;
+                batch.setColor(1, 1, 1, alpha);
+                batch.draw(Resource.GFX.shockwave, getX() + getOriginX() - size, getY() + getOriginX() - size, size*2, size*2, 0, 0, 1, 1);
+                batch.setColor(1, 1, 1, 1);
+            }
+        }
         /*Animation anim = attachJoints.isEmpty() ? Resource.GFX.spiderJump: Resource.GFX.spiderIdle;
         TextureRegion frame = anim.getKeyFrame(stateTime);
         drawRegion(batch, frame);
@@ -161,12 +167,13 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
 
     @Override
     public boolean beginContact(Body me, Body other, Vector2 normal, Vector2 contactPoint) {
-        if (other.getUserData() instanceof GrassActor) {
-            ((GrassActor) other.getUserData()).kill();
-        } else if (other.getUserData() instanceof RockActor) {
-            damage(0.51f);
-            if (health > 0) {
-                ((RockActor) other.getUserData()).kill();
+        if (other.getUserData() instanceof Hittable) {
+            ((Hittable) other.getUserData()).runOver();
+            int points = ((Hittable) other.getUserData()).getPoints();
+            if (points > 0) {
+                Vector2 p = other.getPosition();
+                world.postEvent(new FloatingTextEvent(p.x, p.y, String.valueOf(points), points > 50));
+                world.addScore(points);
             }
         } else if (other.getUserData() instanceof BarrierActor) {
             damage(1);
@@ -174,14 +181,33 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
         return false;
     }
 
-    private void damage(float amount) {
+    public void damage(float amount) {
         health -= amount;
         if (health <= 0) {
             health = 0;
             exhaust1.allowCompletion();
             exhaust2.allowCompletion();
             grass.allowCompletion();
+            timeOfDeath = stateTime;
         }
+    }
+
+    public float getTimeSinceDeath() {
+        return timeOfDeath > 0 ? stateTime - timeOfDeath : 0;
+    }
+
+    public boolean isDestroyed() {
+        return health <= 0;
+    }
+
+    public boolean isCaughtInShockwave(Vector2 pos) {
+        if (getTimeSinceDeath() > 0) {
+            float d = MathUtils.clamp((getTimeSinceDeath() - 0.25f)*3f, 0, 1.0f)*15f;
+            if (body.getPosition().dst(pos) < d) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

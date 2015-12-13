@@ -10,7 +10,7 @@ import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
 import de.doccrazy.shared.game.world.ShapeBuilder;
 
-public class RockActor extends ShapeActor<GameWorld> {
+public class RockActor extends ShapeActor<GameWorld> implements Hittable {
     private static final float RADIUS = 0.18f;
     private final Sprite sprite;
 
@@ -25,11 +25,24 @@ public class RockActor extends ShapeActor<GameWorld> {
     protected BodyBuilder createBody(Vector2 spawn) {
         return BodyBuilder.forStatic(spawn)
                 .fixShape(ShapeBuilder.circle(MathUtils.random(RADIUS*0.8f, RADIUS*1.5f)))
-                .noRotate().fixSensor();
+                .noRotate();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         drawRegion(batch, sprite);
+    }
+
+    @Override
+    public int getPoints() {
+        return 0;
+    }
+
+    @Override
+    public void runOver() {
+        world.getPlayer().damage(0.5f);
+        if (!world.getPlayer().isDestroyed()) {
+            kill();
+        }
     }
 }

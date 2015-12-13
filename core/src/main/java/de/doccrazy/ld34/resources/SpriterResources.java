@@ -5,7 +5,7 @@ import com.brashmonkey.spriter.Entity;
 import de.doccrazy.shared.spriter.ResourcesBaseSpriter;
 
 public class SpriterResources extends ResourcesBaseSpriter {
-    public Entity char1 = entity("char1");
+    public Entity dog = entity("dog");
 
     public SpriterResources(TextureAtlas atlas) {
         super("Game.scml", atlas);
