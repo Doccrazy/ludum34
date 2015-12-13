@@ -3,6 +3,7 @@ package de.doccrazy.ld34.game.actor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.core.Resource;
+import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
@@ -11,12 +12,12 @@ import de.doccrazy.shared.game.world.ShapeBuilder;
 public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
     private static final float RADIUS = 0.3f;
     private final Vector2 target;
-    private boolean solid;
+    private boolean solid, childAttracted;
 
     public FussballActor(GameWorld world, Vector2 spawn, Vector2 target) {
         super(world, spawn, false);
         this.target = target;
-        setzOrder(12);
+        setzOrder(20);
     }
 
     @Override
@@ -40,10 +41,18 @@ public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
         super.doAct(delta);
         if (stateTime > 0.5f && !solid) {
             body.getFixtureList().first().setSensor(false);
+            solid = true;
+        }
+        if (!childAttracted && stateTime > GameRules.FUSSBALL_CHILD_TIME) {
+            Vector2 cs = world.getLevel().getRandomBorderPoint();
+            world.addActor(new ChildActor(world, cs, this));
+            childAttracted = true;
         }
         if (world.getPlayer().isCaughtInShockwave(body.getPosition())) {
+            world.addActor(new SmallFireActor(world, body.getPosition()));
             kill();
         }
+        setRotation(getRotation() + body.getLinearVelocity().len()*20);
     }
 
     @Override
@@ -53,7 +62,7 @@ public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
 
     @Override
     public int getPoints() {
-        return 100;
+        return GameRules.POINTS_FUSSBALL;
     }
 
     @Override

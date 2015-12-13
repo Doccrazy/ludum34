@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.game.world.FloatingTextEvent;
 import de.doccrazy.ld34.game.world.GameWorld;
+import de.doccrazy.ld34.game.world.ScreenShakeEvent;
 import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.base.CollisionListener;
 import de.doccrazy.shared.game.base.KeyboardMovementListener;
@@ -26,7 +27,7 @@ import java.util.*;
 public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListener {
     private static final float RADIUS = 0.5f;
     private static final float SPEED = 2.5f;
-    private static final float TURN_SPEED = 1f;
+    private static final float TURN_SPEED = 1.5f;
     private static final float TURN_MIN = -0.3f;
     private static final float TURN_MAX = 0.3f;
 
@@ -170,9 +171,9 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
         if (other.getUserData() instanceof Hittable) {
             ((Hittable) other.getUserData()).runOver();
             int points = ((Hittable) other.getUserData()).getPoints();
-            if (points > 0) {
+            if (points != 0) {
                 Vector2 p = other.getPosition();
-                world.postEvent(new FloatingTextEvent(p.x, p.y, String.valueOf(points), points > 50));
+                world.postEvent(new FloatingTextEvent(p.x, p.y, String.valueOf(points), points > 50, points < 0));
                 world.addScore(points);
             }
         } else if (other.getUserData() instanceof BarrierActor) {
@@ -182,8 +183,11 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
     }
 
     public void damage(float amount) {
+        System.out.println(amount);
+        float oldHealth = health;
         health -= amount;
-        if (health <= 0) {
+        world.postEvent(new ScreenShakeEvent());
+        if (health <= 0.001f && oldHealth > 0.001f) {
             health = 0;
             exhaust1.allowCompletion();
             exhaust2.allowCompletion();
@@ -226,6 +230,6 @@ class Trail {
     Vector2 localPoint;
     float startTime, lastTime;
     List<Vector2> points = new ArrayList<>();
-    float duration = 1.5f;
+    float duration = 0.75f;
     boolean active = true;
 }

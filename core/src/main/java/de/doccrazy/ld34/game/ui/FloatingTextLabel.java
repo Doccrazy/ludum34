@@ -31,6 +31,8 @@ public class FloatingTextLabel extends Label {
         setPosition(pos.x, pos.y);
         if (event.isImportant()) {
             setStyle(new LabelStyle(Resource.FONT.retro, new Color(1, 1, 1, 0.75f)));
+        } else if (event.isNegative()) {
+            setStyle(new LabelStyle(Resource.FONT.retro, new Color(1, 0.3f, 0.3f, 0.75f)));
         }
     }
 

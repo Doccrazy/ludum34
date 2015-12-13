@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.core.Resource;
+import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
@@ -37,6 +38,9 @@ public class GrassActor extends ShapeActor<GameWorld> implements Hittable {
         setScaleY(Math.min(progress, 1.0f) * scale);
         if (world.getPlayer().isCaughtInShockwave(body.getPosition())) {
             kill();
+            if (MathUtils.randomBoolean(0.0007f)) {
+                world.addActor(new SmallFireActor(world, body.getPosition()));
+            }
         }
     }
 
@@ -47,7 +51,7 @@ public class GrassActor extends ShapeActor<GameWorld> implements Hittable {
 
     @Override
     public int getPoints() {
-        return 10;
+        return GameRules.POINTS_GRASS;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package de.doccrazy.ld34.game.actor;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.data.GameRules;
@@ -10,16 +9,16 @@ import de.doccrazy.shared.game.actor.SpriterActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
 import de.doccrazy.shared.game.world.ShapeBuilder;
 
-public class DogActor extends SpriterActor<GameWorld> implements Hittable {
+public class ChildActor extends SpriterActor<GameWorld> implements Hittable {
     private static final float RADIUS = 0.3f;
-    private static final float SPEED = 1f;
-    private int state = 0;
-    private Vector2 target;
+    private static final float SPEED = 1.5f;
+    private FussballActor fussballActor;
 
-    public DogActor(GameWorld world, Vector2 spawn) {
-        super(world, spawn, false, Resource.SPRITER.dog, Resource.SPRITER::getDrawer);
-        setzOrder(21);
-        player.setScale(0.0025f);
+    public ChildActor(GameWorld world, Vector2 spawn, FussballActor fussballActor) {
+        super(world, spawn, false, Resource.SPRITER.child, Resource.SPRITER::getDrawer);
+        this.fussballActor = fussballActor;
+        setzOrder(20);
+        player.setScale(0.01f);
         player.setAnimation("walk");
     }
 
@@ -35,50 +34,35 @@ public class DogActor extends SpriterActor<GameWorld> implements Hittable {
     @Override
     protected void doAct(float delta) {
         super.doAct(delta);
-        handleState();
         if (world.getPlayer().isCaughtInShockwave(body.getPosition())) {
             world.addActor(new SmallFireActor(world, body.getPosition()));
             runOver();
         }
-    }
-
-    private void handleState() {
-        switch (state) {
-            case 0:
-                target = world.getLevel().getRandomPoint(false);
-                state = 1;
-                break;
-            case 1:
-                Vector2 d = target.cpy().sub(body.getPosition());
-                if (d.len() < 0.25f) {
-                    body.setLinearVelocity(0, 0);
-                    state = 2;
-                    stateTime = 0;
-                    player.setAnimation("crap");
-                    return;
-                }
+        if (fussballActor != null && !fussballActor.isDead()) {
+            Vector2 d = fussballActor.getBody().getPosition().cpy().sub(body.getPosition());
+            if (d.len() < 0.1f) {
+                body.setLinearVelocity(0, 0);
+                fussballActor.kill();
+                fussballActor = null;
+                player.setAnimation("fussball");
+            } else {
                 body.setLinearVelocity(d.nor().scl(SPEED));
-                setRotation(d.angle() + 180);
-                break;
-            case 2:
-                if (stateTime > 1f) {
-                    Vector2 c = localToStageCoordinates(new Vector2(getOriginX() + 0.5f, getOriginY()));
-                    world.addActor(new CrapActor(world, c));
-                    state = 3;
-                    stateTime = 0;
-                }
-                break;
-            case 3:
-                if (stateTime > 1f) {
-                    player.setAnimation("walk");
-                    state = 0;
-                }
+                setRotation(d.angle());
+            }
+        } else {
+            Vector2 d = spawn.cpy().sub(body.getPosition());
+            if (d.len() < 0.1f) {
+                kill();
+            } else {
+                body.setLinearVelocity(d.nor().scl(SPEED));
+                setRotation(d.angle());
+            }
         }
     }
 
     @Override
     public int getPoints() {
-        return GameRules.POINTS_DOG;
+        return fussballActor == null ? GameRules.POINTS_CHILD_WITH_BALL : GameRules.POINTS_CHILD;
     }
 
     public void runOver() {

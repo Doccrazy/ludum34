@@ -13,6 +13,7 @@ public class GfxResources extends ResourcesBase {
     public Texture bloodTrailTex = textureWrap("bloodTrailTex.png");
     public Texture fussballTrailTex = textureWrap("fussballTrailTex.png");
     public Texture level1bg = texture("bg.png");
+    public Texture level2bg = texture("bg2.png");
     public Texture shockwave = texture("shockwave.png");
 
     public Sprite[] leaves = new Sprite[]{atlas.createSprite("leaf1")};

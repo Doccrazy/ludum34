@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.core.Resource;
+import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
@@ -40,7 +41,7 @@ public class RockActor extends ShapeActor<GameWorld> implements Hittable {
 
     @Override
     public void runOver() {
-        world.getPlayer().damage(0.5f);
+        world.getPlayer().damage(GameRules.DAMAGE_ROCK);
         if (!world.getPlayer().isDestroyed()) {
             kill();
         }

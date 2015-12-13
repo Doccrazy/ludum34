@@ -1,19 +1,14 @@
 package de.doccrazy.ld34.game.actor;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
-import de.doccrazy.shared.game.actor.WorldActor;
 
-import java.util.function.BiFunction;
-
-public class Level1Actor extends Level {
-    public static final float LEVEL_WIDTH = 24;
+public class Level2Actor extends Level {
+    public static final float LEVEL_WIDTH = 32;
     public static final float LEVEL_HEIGHT = LEVEL_WIDTH*9f/16f;
 
     public static final float GRASS_PER_SEC = 25f;
@@ -22,8 +17,10 @@ public class Level1Actor extends Level {
 
     private final Rectangle boundingBox = new Rectangle(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
     private final Rectangle grassBox = new Rectangle(1.4f, 1.1f, LEVEL_WIDTH-2.6f, LEVEL_HEIGHT-2.4f);
+    private final Rectangle exclude1 = new Rectangle(1.1f, 14.2f, 16.1f, 2.7f);
+    private final Rectangle exclude2 = new Rectangle(18.9f, 6.0f, 4.0f, 2.2f);
 
-    public Level1Actor(GameWorld world) {
+    public Level2Actor(GameWorld world) {
         super(world);
         grassPerSec = GRASS_PER_SEC;
         fussballPerSec = FUSSBALL_PER_SEC;
@@ -39,6 +36,8 @@ public class Level1Actor extends Level {
         world.addActor(new BarrierActor(world, new Rectangle(0, 0, 1f, LEVEL_HEIGHT)));  //left
         world.addActor(new BarrierActor(world, new Rectangle(0, LEVEL_HEIGHT - 1.1f, LEVEL_WIDTH, 1.1f)));  //top
         world.addActor(new BarrierActor(world, new Rectangle(LEVEL_WIDTH - 0.8f, 0, 0.8f, LEVEL_HEIGHT)));  //right
+        world.addActor(new BarrierActor(world, exclude1));  //terrace
+        world.addActor(new BarrierActor(world, exclude2));  //terrace
     }
 
     @Override
@@ -52,8 +51,13 @@ public class Level1Actor extends Level {
     }
 
     @Override
+    protected boolean excluded(Vector2 pos) {
+        return exclude1.contains(pos) || exclude2.contains(pos);
+    }
+
+    @Override
     public Vector2 getSpawn() {
-        return new Vector2(2f, 10f);
+        return new Vector2(2f, 9f);
     }
 
     @Override
@@ -73,6 +77,6 @@ public class Level1Actor extends Level {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(Resource.GFX.level1bg, 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
+        batch.draw(Resource.GFX.level2bg, 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
     }
 }

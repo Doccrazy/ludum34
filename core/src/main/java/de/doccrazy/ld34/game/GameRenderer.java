@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
 
@@ -12,6 +13,7 @@ import box2dLight.RayHandler;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.actor.PlayerActor;
 import de.doccrazy.ld34.game.world.GameWorld;
+import de.doccrazy.ld34.game.world.ScreenShakeEvent;
 import de.doccrazy.shared.game.BaseGameRenderer;
 
 public class GameRenderer extends BaseGameRenderer<GameWorld> {
@@ -22,9 +24,10 @@ public class GameRenderer extends BaseGameRenderer<GameWorld> {
 	private float zoomDelta = 0;
 	private float camY;
     private boolean animateCamera;
+	private float shakeAmount = 0;
 
     public GameRenderer(GameWorld world) {
-        super(world, new Vector2(GameRules.LEVEL_WIDTH, GameRules.LEVEL_WIDTH * 9f / 16f));
+        super(world, new Vector2(24f, 24f * 9f / 16f));
     }
 
     @Override
@@ -43,12 +46,15 @@ public class GameRenderer extends BaseGameRenderer<GameWorld> {
 
 	@Override
 	protected void beforeRender() {
+        shakeAmount = shakeAmount * 0.91f;
+        world.pollEvents(ScreenShakeEvent.class, screenShakeEvent -> shakeAmount += 0.1f);
+
 	    gameViewport.x = world.getLevel().getBoundingBox().width;
 	    gameViewport.y = world.getLevel().getBoundingBox().height;
 	    //zoom = MathUtils.clamp(zoom + zoomDelta*0.02f, 1f, 2f);
 
-        camera.position.x = gameViewport.x / 2;
-        camera.position.y = gameViewport.y / 2;
+        camera.position.x = gameViewport.x / 2 + MathUtils.random(-shakeAmount, shakeAmount);
+        camera.position.y = gameViewport.y / 2 + MathUtils.random(-shakeAmount, shakeAmount);
 
         /*if (animateCamera) {
             camY -= Gdx.graphics.getDeltaTime() * CAM_PPS;

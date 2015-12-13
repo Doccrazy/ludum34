@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.actor.Level;
 import de.doccrazy.ld34.game.actor.Level1Actor;
+import de.doccrazy.ld34.game.actor.Level2Actor;
 import de.doccrazy.ld34.game.actor.PlayerActor;
 import de.doccrazy.shared.game.world.Box2dWorld;
 import de.doccrazy.shared.game.world.GameState;
@@ -32,7 +33,7 @@ public class GameWorld extends Box2dWorld<GameWorld> {
             case INIT:
             	waitingForRound = false;
             	if (nextLevel == null) {
-            	    nextLevel = Level1Actor::new;
+            	    nextLevel = Level2Actor::new;
             	}
                 level = nextLevel.apply(this);
 
