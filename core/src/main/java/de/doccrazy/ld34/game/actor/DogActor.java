@@ -43,6 +43,10 @@ public class DogActor extends SpriterActor<GameWorld> implements Hittable {
     }
 
     private void handleState() {
+        if (!world.isGameInProgress()) {
+            body.setLinearVelocity(0, 0);
+            return;
+        }
         switch (state) {
             case 0:
                 target = world.getLevel().getRandomPoint(false);

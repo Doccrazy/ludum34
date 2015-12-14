@@ -22,8 +22,8 @@ public class UiInputListener extends InputListener {
         } else if (keycode == Keys.ENTER) {
             root.getWorld().resetAll();
 		} else {
-			if ((root.getWorld().isGameFinished() || root.getWorld().getGameState() == GameState.INIT)
-                    && !root.getWorld().isGameOver()) {
+			if ((root.getWorld().isGameFinished() && !root.getWorld().isGameOver() && root.getWorld().getStateTime() > 1f)
+                    || root.getWorld().getGameState() == GameState.INIT) {
 				root.getWorld().transition(GameState.INIT);
 				root.getWorld().transition(GameState.PRE_GAME);
 			}

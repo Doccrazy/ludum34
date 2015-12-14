@@ -84,7 +84,7 @@ public class Level2Actor extends Level {
                 ballCount++;
             }
         }
-        fussballPerSec.setMaxTime(ballCount > 0 ? 12.5f : 7.5f);
+        fussballPerSec.setMaxTime(ballCount > 1 ? 12.5f : 7.5f);
         spawnRandomStuff(delta);
     }
 

@@ -38,6 +38,9 @@ public class ChildActor extends SpriterActor<GameWorld> implements Hittable {
             world.addActor(new SmallFireActor(world, body.getPosition()));
             runOver();
         }
+        if (!world.isGameInProgress()) {
+            return;
+        }
         if (fussballActor != null && !fussballActor.isDead()) {
             Vector2 d = fussballActor.getBody().getPosition().cpy().sub(body.getPosition());
             if (d.len() < 0.1f) {

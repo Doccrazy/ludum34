@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
+import de.doccrazy.ld34.game.world.HelpEvent;
 import de.doccrazy.shared.game.actor.ShapeActor;
 import de.doccrazy.shared.game.world.BodyBuilder;
 import de.doccrazy.shared.game.world.ShapeBuilder;
@@ -48,7 +49,7 @@ public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
             childAttracted = null;
             stateTime = 0;
         }
-        if (childAttracted == null && stateTime > GameRules.FUSSBALL_CHILD_TIME && !world.getPlayer().isDestroyed()) {
+        if (childAttracted == null && stateTime > GameRules.FUSSBALL_CHILD_TIME && world.isGameInProgress()) {
             Vector2 cs = world.getLevel().getRandomBorderPoint();
             world.addActor(childAttracted = new ChildActor(world, cs, this));
         }

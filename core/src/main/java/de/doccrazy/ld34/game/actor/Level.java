@@ -66,7 +66,7 @@ public abstract class Level extends Box2dActor<GameWorld> {
     }
 
     protected void spawnRandomStuff(float delta) {
-        if (world.getPlayer().isDestroyed()) {
+        if (!world.isGameInProgress()) {
             return;
         }
         if (MathUtils.randomBoolean(delta * grassPerSec)) {

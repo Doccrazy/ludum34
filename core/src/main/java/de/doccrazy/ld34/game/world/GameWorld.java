@@ -3,13 +3,13 @@ package de.doccrazy.ld34.game.world;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import de.doccrazy.ld34.data.GameRules;
-import de.doccrazy.ld34.game.actor.Level;
-import de.doccrazy.ld34.game.actor.Level1Actor;
-import de.doccrazy.ld34.game.actor.Level2Actor;
-import de.doccrazy.ld34.game.actor.PlayerActor;
+import de.doccrazy.ld34.game.actor.*;
+import de.doccrazy.shared.game.actor.WorldActor;
 import de.doccrazy.shared.game.world.Box2dWorld;
 import de.doccrazy.shared.game.world.GameState;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 public class GameWorld extends Box2dWorld<GameWorld> {
@@ -21,6 +21,11 @@ public class GameWorld extends Box2dWorld<GameWorld> {
 	private int round;
     private Vector2 mouseTarget;
     private Level level;
+    private Map<Class<?>, String> help = new HashMap<Class<?>, String>() {{
+        put(FussballActor.class, "Where did that come from??\nI should wait for the owner to properly \"thank\" him...");
+        put(ChildActor.class, "Comeon, get your ball, you brat!\nThen I will get you...");
+        put(DogActor.class, "Damn pests, spreading happiness and poop over my precious lawn!\nSeems like the dog was attracted by the ball...");
+    }};
 
 	public GameWorld(Function<GameWorld, Level>... levels) {
         super(GameRules.GRAVITY);
@@ -148,5 +153,14 @@ public class GameWorld extends Box2dWorld<GameWorld> {
     public void addScore(int value) {
         super.addScore(value);
         //Resource.SOUND.catchFly.play();
+    }
+
+    @Override
+    public void addActor(WorldActor<GameWorld> actor) {
+        super.addActor(actor);
+        if (help.containsKey(actor.getClass())) {
+            postEvent(new HelpEvent(help.get(actor.getClass())));
+            help.remove(actor.getClass());
+        }
     }
 }
