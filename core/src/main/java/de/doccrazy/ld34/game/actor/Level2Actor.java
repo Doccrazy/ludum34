@@ -8,6 +8,7 @@ import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.ld34.game.world.RandomEvent;
+import de.doccrazy.shared.game.world.GameState;
 
 public class Level2Actor extends Level {
     public static final float LEVEL_WIDTH = 32;
@@ -74,6 +75,9 @@ public class Level2Actor extends Level {
 
     @Override
     protected void doAct(float delta) {
+        if (world.getGameState() != GameState.GAME) {
+            return;
+        }
         int ballCount = 0;
         for (Actor actor : world.stage.getActors()) {
             if (actor instanceof FussballActor) {

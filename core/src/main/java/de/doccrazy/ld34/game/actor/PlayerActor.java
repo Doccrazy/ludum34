@@ -193,6 +193,7 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
             exhaust2.allowCompletion();
             grass.allowCompletion();
             timeOfDeath = stateTime;
+            world.transition(GameState.DEFEAT);
         }
     }
 

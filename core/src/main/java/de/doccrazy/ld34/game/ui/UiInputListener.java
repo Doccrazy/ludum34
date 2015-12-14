@@ -17,15 +17,16 @@ public class UiInputListener extends InputListener {
 
 	@Override
     public boolean keyDown(InputEvent event, int keycode) {
-		if (keycode == Keys.ENTER) {
-		    if (root.getWorld().getGameState() == GameState.VICTORY) {
-		        root.getWorld().setNextLevel(Level2Actor::new);
-		    }
-			root.getWorld().transition(GameState.INIT);
-			root.getWorld().transition(GameState.PRE_GAME);
-		}
 		if (keycode == Keys.F12) {
-		    root.getRenderer().setRenderBox2dDebug(!root.getRenderer().isRenderBox2dDebug());
+            root.getRenderer().setRenderBox2dDebug(!root.getRenderer().isRenderBox2dDebug());
+        } else if (keycode == Keys.ENTER) {
+            root.getWorld().resetAll();
+		} else {
+			if ((root.getWorld().isGameFinished() || root.getWorld().getGameState() == GameState.INIT)
+                    && !root.getWorld().isGameOver()) {
+				root.getWorld().transition(GameState.INIT);
+				root.getWorld().transition(GameState.PRE_GAME);
+			}
 		}
 		if (Debug.ON) {
 			/*if (keycode == Keys.Z) {

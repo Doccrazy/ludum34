@@ -35,7 +35,6 @@ public class GameInputListener extends InputListener {
             return false;
         }
         if (button == 0) {
-            System.out.println(new Vector2(x, y));
             //world.getPlayer().setJump(true);
             return true;
             //start = world.createAttachedPoint(new Vector2(x, y), 0.02f);

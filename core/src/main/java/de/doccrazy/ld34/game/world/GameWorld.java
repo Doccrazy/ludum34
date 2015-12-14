@@ -14,17 +14,22 @@ import java.util.function.Function;
 
 public class GameWorld extends Box2dWorld<GameWorld> {
 
+    private final Function<GameWorld, Level>[] levels;
+    private int currentLevel = 0;
     private PlayerActor player;
 	private boolean waitingForRound, gameOver;
 	private int round;
     private Vector2 mouseTarget;
     private Level level;
-    private Function<GameWorld, Level> nextLevel;
 
-	public GameWorld() {
+	public GameWorld(Function<GameWorld, Level>... levels) {
         super(GameRules.GRAVITY);
+        if (levels.length == 0) {
+            throw new IllegalArgumentException("No levels");
+        }
+        this.levels = levels;
         RayHandler.useDiffuseLight(true);
-        transition(GameState.PRE_GAME);
+        //transition(GameState.PRE_GAME);
     }
 
     @Override
@@ -32,10 +37,7 @@ public class GameWorld extends Box2dWorld<GameWorld> {
         switch (newState) {
             case INIT:
             	waitingForRound = false;
-            	if (nextLevel == null) {
-            	    nextLevel = Level1Actor::new;
-            	}
-                level = nextLevel.apply(this);
+                level = levels[currentLevel].apply(this);
 
                 addActor(level);
                 addActor(player = new PlayerActor(this, level.getSpawn()));
@@ -51,6 +53,11 @@ public class GameWorld extends Box2dWorld<GameWorld> {
                 stage.setKeyboardFocus(player);
                 break;
             case VICTORY:
+                if (currentLevel + 1 < levels.length) {
+                    currentLevel++;
+                } else {
+                    gameOver = true;
+                }
             case DEFEAT:
             	//for (Music m : Resource.MUSIC.fight) {
             	//	m.stop();
@@ -126,8 +133,15 @@ public class GameWorld extends Box2dWorld<GameWorld> {
         return Math.max(0, level.getTime() - (isGameFinished() ? getLastStateTime() : getStateTime()));
     }
 
-    public void setNextLevel(Function<GameWorld, Level> nextLevel) {
-        this.nextLevel = nextLevel;
+    public void advanceLevel() {
+        if (currentLevel + 1 < levels.length) {
+            currentLevel++;
+        }
+    }
+
+    public void resetAll() {
+        currentLevel = 0;
+        reset();
     }
 
     @Override

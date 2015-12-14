@@ -10,6 +10,7 @@ import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.world.GameWorld;
 import de.doccrazy.ld34.game.world.RandomEvent;
 import de.doccrazy.shared.game.actor.WorldActor;
+import de.doccrazy.shared.game.world.GameState;
 
 import java.util.function.BiFunction;
 
@@ -59,7 +60,7 @@ public class Level1Actor extends Level {
 
     @Override
     public int getScoreGoal() {
-        return 5000;
+        return 2500;
     }
 
     @Override
@@ -69,6 +70,9 @@ public class Level1Actor extends Level {
 
     @Override
     protected void doAct(float delta) {
+        if (world.getGameState() != GameState.GAME) {
+            return;
+        }
         int ballCount = 0;
         for (Actor actor : world.stage.getActors()) {
             if (actor instanceof FussballActor) {
