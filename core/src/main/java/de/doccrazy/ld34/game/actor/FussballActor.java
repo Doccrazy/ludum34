@@ -20,6 +20,7 @@ public class FussballActor extends ShapeActor<GameWorld> implements Hittable {
         super(world, spawn, false);
         this.target = target;
         setzOrder(20);
+        Resource.SOUND.ballSpawn.play();
     }
 
     @Override

@@ -41,6 +41,7 @@ public class Level2Actor extends Level {
         world.addActor(new BarrierActor(world, new Rectangle(LEVEL_WIDTH - 1.5f, 0, 1.5f, LEVEL_HEIGHT)));  //right
         world.addActor(new BarrierActor(world, exclude1));  //terrace
         world.addActor(new BarrierActor(world, exclude2));  //pool
+        Resource.MUSIC.music2.play();
     }
 
     @Override

@@ -173,6 +173,9 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
             int points = ((Hittable) other.getUserData()).getPoints();
             if (points != 0) {
                 Vector2 p = other.getPosition();
+                if (points >= 10) {
+                    Resource.SOUND.powerup3.play();
+                }
                 world.postEvent(new FloatingTextEvent(p.x, p.y, String.valueOf(points), points > 50, points < 0));
                 world.addScore(points);
             }
@@ -194,6 +197,9 @@ public class PlayerActor extends ShapeActor<GameWorld> implements CollisionListe
             grass.allowCompletion();
             timeOfDeath = stateTime;
             world.transition(GameState.DEFEAT);
+            Resource.SOUND.playerDeath.play();
+        } else {
+            Resource.SOUND.hit[MathUtils.random(Resource.SOUND.hit.length-1)].play();
         }
     }
 

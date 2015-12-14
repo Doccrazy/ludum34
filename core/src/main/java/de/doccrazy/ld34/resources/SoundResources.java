@@ -11,4 +11,15 @@ public class SoundResources extends ResourcesBase {
 	public Sound catchFly = sound("catch.wav");
 	public Sound jump = sound("jump.wav");
 	public Sound grab = sound("grab.wav");*/
+    public Sound childSpawn = sound("child.wav");
+    public Sound childGetBall = sound("child2.wav");
+    public Sound ballSpawn = sound("child3.wav");
+    public Sound powerup1 = sound("powerup1.wav");
+    public Sound powerup2 = sound("powerup2.wav");
+    public Sound powerup3 = sound("powerup3.wav");
+    public Sound playerDeath = sound("explBig.wav");
+    public Sound crap = sound("crap.wav");
+    public Sound wauwau = sound("wauwau.wav");
+    public Sound engine = sound("engine.wav");
+    public Sound[] hit = new Sound[] { sound("hit.wav"), sound("hit2.wav"), sound("hit3.wav") };
 }

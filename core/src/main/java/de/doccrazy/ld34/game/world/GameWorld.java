@@ -2,6 +2,7 @@ package de.doccrazy.ld34.game.world;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
+import de.doccrazy.ld34.core.Resource;
 import de.doccrazy.ld34.data.GameRules;
 import de.doccrazy.ld34.game.actor.*;
 import de.doccrazy.shared.game.actor.WorldActor;
@@ -39,8 +40,10 @@ public class GameWorld extends Box2dWorld<GameWorld> {
 
     @Override
     protected void doTransition(GameState newState) {
+        Resource.SOUND.engine.stop();
         switch (newState) {
             case INIT:
+                Resource.MUSIC.victory.stop();
             	waitingForRound = false;
                 level = levels[currentLevel].apply(this);
 
@@ -52,18 +55,22 @@ public class GameWorld extends Box2dWorld<GameWorld> {
                 break;
             case GAME:
             	//Resource.MUSIC.intro.stop();
-            	//Resource.MUSIC.victory.stop();
+            	Resource.MUSIC.victory.stop();
             	//Resource.MUSIC.fight[(int)(Math.random()*Resource.MUSIC.fight.length)].play();
+                Resource.SOUND.engine.setLooping(Resource.SOUND.engine.play(), true);
                 player.setupKeyboardControl();
                 stage.setKeyboardFocus(player);
                 break;
             case VICTORY:
+                Resource.MUSIC.victory.play();
                 if (currentLevel + 1 < levels.length) {
                     currentLevel++;
                 } else {
                     gameOver = true;
                 }
             case DEFEAT:
+                Resource.MUSIC.music1.stop();
+                Resource.MUSIC.music2.stop();
             	//for (Music m : Resource.MUSIC.fight) {
             	//	m.stop();
             	//}

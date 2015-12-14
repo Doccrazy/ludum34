@@ -41,6 +41,7 @@ public class Level1Actor extends Level {
         world.addActor(new BarrierActor(world, new Rectangle(0, 0, 1f, LEVEL_HEIGHT)));  //left
         world.addActor(new BarrierActor(world, new Rectangle(0, LEVEL_HEIGHT - 1.1f, LEVEL_WIDTH, 1.1f)));  //top
         world.addActor(new BarrierActor(world, new Rectangle(LEVEL_WIDTH - 0.8f, 0, 0.8f, LEVEL_HEIGHT)));  //right
+        Resource.MUSIC.music1.play();
     }
 
     @Override

@@ -20,6 +20,7 @@ public class ChildActor extends SpriterActor<GameWorld> implements Hittable {
         setzOrder(20);
         player.setScale(0.01f);
         player.setAnimation("walk");
+        Resource.SOUND.childSpawn.play();
     }
 
     @Override
@@ -48,6 +49,7 @@ public class ChildActor extends SpriterActor<GameWorld> implements Hittable {
                 fussballActor.kill();
                 fussballActor = null;
                 player.setAnimation("fussball");
+                Resource.SOUND.childGetBall.play();
             } else {
                 body.setLinearVelocity(d.nor().scl(SPEED));
                 setRotation(d.angle());
@@ -74,6 +76,11 @@ public class ChildActor extends SpriterActor<GameWorld> implements Hittable {
             Vector2 pos = new Vector2(1, 0).rotate(MathUtils.random(360)).scl(MathUtils.random(0.2f, 1f))
                     .add(new Vector2(getX() + getOriginX(), getY() + getOriginY()));
             world.addActor(new BloodActor(world, pos));
+        }
+        if ("fussball".equals(player.getAnimation().name)) {
+            Resource.SOUND.powerup1.play();
+        } else {
+            Resource.SOUND.powerup2.play();
         }
         kill();
     }

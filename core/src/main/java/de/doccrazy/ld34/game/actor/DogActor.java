@@ -21,6 +21,7 @@ public class DogActor extends SpriterActor<GameWorld> implements Hittable {
         setzOrder(21);
         player.setScale(0.0025f);
         player.setAnimation("walk");
+        Resource.SOUND.wauwau.play();
     }
 
     @Override
@@ -70,10 +71,12 @@ public class DogActor extends SpriterActor<GameWorld> implements Hittable {
                     world.addActor(new CrapActor(world, c));
                     state = 3;
                     stateTime = 0;
+                    Resource.SOUND.crap.play();
                 }
                 break;
             case 3:
                 if (stateTime > 1f) {
+                    Resource.SOUND.wauwau.play();
                     player.setAnimation("walk");
                     state = 0;
                 }
